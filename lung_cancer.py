@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+
+import models
+
 from sklearn.model_selection import train_test_split
 
 # Seed
@@ -17,6 +20,8 @@ X = X.replace({2:0, 'F':0, 'M':1}) # One-hot encode features. Let yes=0 and no=1
 # Split into training (70%), validation (20%), and testing (10%)
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.3, random_state=RANDOM_STATE)
 X_val, X_test, y_val, y_test = train_test_split(X_val, y_val, test_size=0.33, random_state=RANDOM_STATE)
+
+print(X_test, y_test)
 
 # Print info about data
 print(X.describe())

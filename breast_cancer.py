@@ -1,7 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+
+import models
+
 from sklearn.model_selection import train_test_split
+
 
 # Seed
 RANDOM_STATE = 3
