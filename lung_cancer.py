@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from models import logistic_regression
+from models import logistic_regression, naive_bayes, random_forest
 
 from sklearn.model_selection import train_test_split
 
@@ -19,12 +19,23 @@ X = X.replace({2:0, 'F':0, 'M':1}) # One-hot encode features. Let yes=0 and no=1
 
 # Split into training (70%), validation (20%), and testing (10%)
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.3, random_state=RANDOM_STATE)
-X_val, X_test, y_val, y_test = train_test_split(X_val, y_val, test_size=0.33, random_state=RANDOM_STATE)
 
-print(X_test, y_test)
+#print(X_test, y_test)
 
 # Print info about data
-print(X.describe())
+#print(X.describe())
 
 
 logistic_regression(X_train, y_train, X_val, y_val)
+
+# Print info about data
+#print(X.describe())
+
+print('Logistic Regression:' )
+logistic_regression(X_train, y_train, X_val, y_val)
+
+print('Naive Bayes: ')
+naive_bayes(X_train, y_train, X_val, y_val)
+
+print('Random Forest: ')
+random_forest(X_train, y_train, X_val, y_val)
