@@ -11,11 +11,52 @@ from sklearn.metrics import accuracy_score, recall_score, confusion_matrix
 
 
 def random_forest(X_train, y_train, X_val, y_val):
-    pass
+    #Perform gridsearch
+    model = GridSearchCV(RandomForestClassifier(), param_grid={'max_depth': [None, 10, 5]}, 
+    cv=5, scoring="accuracy")
+
+    #Fit the models
+    model.fit(X_train, y_train)
+    best_model = model.best_estimator_
+
+    #Print best model
+    print(best_model.get_params())
+
+    #Print best score
+    print('Best score: ', model.best_score_)
+
+    # Predict the target values
+    y_hat = best_model.predict(X_val)
+
+    # tn, fp, fn, tp = confusion_matrix(y_val, y_hat).ravel()
+    print(pd.crosstab(pd.Series(y_val.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
+
+    #print(y_val.to_numpy())
+    #print(y_hat)
 
 
 def naive_bayes(X_train, y_train, X_val, y_val):
-    pass
+    
+    model = GridSearchCV(GaussianNB(), param_grid = {}, cv=5, scoring="accuracy")
+
+    #Fit the models
+    model.fit(X_train, y_train)
+    best_model = model.best_estimator_
+
+    #Print best model
+    print(best_model.get_params())
+
+    #Print best score
+    print('Best score: ', model.best_score_)
+
+    # Predict the target values
+    y_hat = best_model.predict(X_val)
+
+    # tn, fp, fn, tp = confusion_matrix(y_val, y_hat).ravel()
+    print(pd.crosstab(pd.Series(y_val.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
+
+    #print(y_val.to_numpy())
+    #print(y_hat)
 
 
 def logistic_regression(X_train, y_train, X_val, y_val):
@@ -35,7 +76,10 @@ def logistic_regression(X_train, y_train, X_val, y_val):
     model.fit(X_train, y_train)
     best_model = model.best_estimator_
 
-    # print(best_model.get_params())
+    print(best_model.get_params())
+    
+    #Print best score
+    print('Best score: ', model.best_score_)
 
     # Predict the target values
     y_hat = best_model.predict(X_val)
@@ -43,5 +87,5 @@ def logistic_regression(X_train, y_train, X_val, y_val):
     # tn, fp, fn, tp = confusion_matrix(y_val, y_hat).ravel()
     print(pd.crosstab(pd.Series(y_val.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
 
-    print(y_val.to_numpy())
-    print(y_hat)
+    #print(y_val.to_numpy())
+    #print(y_hat)
