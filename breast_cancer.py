@@ -18,17 +18,17 @@ X = data.drop(columns=['diagnosis']) # Remove target label from features
 # Feature selection
 X = X.drop(columns=['id']) # The id column is not useful information
 
-# Split into training (70%), testing(30%)
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.3, random_state=RANDOM_STATE)
+# Split into training (80%), testing(20%)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=RANDOM_STATE)
 
 # Print info about data
 #print(X.describe())
 
 print('Logistic Regression:' )
-logistic_regression(X_train, y_train, X_val, y_val)
+logistic_regression(X_train, y_train, X_test, y_test)
 
 print('Naive Bayes: ')
-naive_bayes(X_train, y_train, X_val, y_val)
+naive_bayes(X_train, y_train, X_test, y_test)
 
 print('Random Forest: ')
-random_forest(X_train, y_train, X_val, y_val)
+random_forest(X_train, y_train, X_test, y_test)
