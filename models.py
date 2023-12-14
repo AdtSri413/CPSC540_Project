@@ -10,9 +10,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, recall_score, confusion_matrix
 
 
-def random_forest(X_train, y_train, X_val, y_val):
+def random_forest(X_train, y_train, X_test, y_test):
     #Perform gridsearch
-    model = GridSearchCV(RandomForestClassifier(), param_grid={'max_depth': [None, 10, 5]}, 
+    model = GridSearchCV(RandomForestClassifier(), 
+        param_grid={
+            'criterion': ['gini', 'entropy'], 
+            'max_depth': [i for i in range(1, len(X_train.columns))]+[None]
+            }, 
     cv=5, scoring="accuracy")
 
     #Fit the models
@@ -26,16 +30,16 @@ def random_forest(X_train, y_train, X_val, y_val):
     print('Best score: ', model.best_score_)
 
     # Predict the target values
-    y_hat = best_model.predict(X_val)
+    y_hat = best_model.predict(X_test)
 
-    # tn, fp, fn, tp = confusion_matrix(y_val, y_hat).ravel()
-    print(pd.crosstab(pd.Series(y_val.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
+    # tn, fp, fn, tp = confusion_matrix(y_test, y_hat).ravel()
+    print(pd.crosstab(pd.Series(y_test.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
 
-    #print(y_val.to_numpy())
+    #print(y_test.to_numpy())
     #print(y_hat)
 
 
-def naive_bayes(X_train, y_train, X_val, y_val):
+def naive_bayes(X_train, y_train, X_test, y_test):
     
     model = GridSearchCV(GaussianNB(), param_grid = {}, cv=5, scoring="accuracy")
 
@@ -50,21 +54,21 @@ def naive_bayes(X_train, y_train, X_val, y_val):
     print('Best score: ', model.best_score_)
 
     # Predict the target values
-    y_hat = best_model.predict(X_val)
+    y_hat = best_model.predict(X_test)
 
-    # tn, fp, fn, tp = confusion_matrix(y_val, y_hat).ravel()
-    print(pd.crosstab(pd.Series(y_val.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
+    # tn, fp, fn, tp = confusion_matrix(y_test, y_hat).ravel()
+    print(pd.crosstab(pd.Series(y_test.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
 
-    #print(y_val.to_numpy())
+    #print(y_test.to_numpy())
     #print(y_hat)
 
 
-def logistic_regression(X_train, y_train, X_val, y_val):
+def logistic_regression(X_train, y_train, X_test, y_test):
 
     # Standardize data
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
-    X_val = scaler.fit_transform(X_val)
+    X_test = scaler.fit_transform(X_test)
 
     # Find best hyperparameters
     model = GridSearchCV(LogisticRegression(solver="liblinear"), 
@@ -82,10 +86,10 @@ def logistic_regression(X_train, y_train, X_val, y_val):
     print('Best score: ', model.best_score_)
 
     # Predict the target values
-    y_hat = best_model.predict(X_val)
+    y_hat = best_model.predict(X_test)
 
-    # tn, fp, fn, tp = confusion_matrix(y_val, y_hat).ravel()
-    print(pd.crosstab(pd.Series(y_val.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
+    # tn, fp, fn, tp = confusion_matrix(y_test, y_hat).ravel()
+    print(pd.crosstab(pd.Series(y_test.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
 
-    #print(y_val.to_numpy())
+    #print(y_test.to_numpy())
     #print(y_hat)

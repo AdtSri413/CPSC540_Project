@@ -17,8 +17,8 @@ X = data.drop(columns=['LUNG_CANCER']) # Remove target label from features
 # Feature selection/transformation
 X = X.replace({2:0, 'F':0, 'M':1}) # One-hot encode features. Let yes=0 and no=1
 
-# Split into training (70%), validation (20%), and testing (10%)
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.3, random_state=RANDOM_STATE)
+# Split into training (80%) and testing (20%)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=RANDOM_STATE)
 
 #print(X_test, y_test)
 
@@ -26,16 +26,16 @@ X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.3, random_st
 #print(X.describe())
 
 
-logistic_regression(X_train, y_train, X_val, y_val)
+# logistic_regression(X_train, y_train, X_test, y_test)
 
 # Print info about data
 #print(X.describe())
 
 print('Logistic Regression:' )
-logistic_regression(X_train, y_train, X_val, y_val)
+logistic_regression(X_train, y_train, X_test, y_test)
 
 print('Naive Bayes: ')
-naive_bayes(X_train, y_train, X_val, y_val)
+naive_bayes(X_train, y_train, X_test, y_test)
 
 print('Random Forest: ')
-random_forest(X_train, y_train, X_val, y_val)
+random_forest(X_train, y_train, X_test, y_test)
