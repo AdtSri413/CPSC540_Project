@@ -1,5 +1,6 @@
+from plots import ROC_curve, confusion_mat
+
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 
 from sklearn.model_selection import GridSearchCV
@@ -7,7 +8,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, recall_score, confusion_matrix
 
 
 def random_forest(X_train, y_train, X_test, y_test):
@@ -15,7 +15,7 @@ def random_forest(X_train, y_train, X_test, y_test):
     model = GridSearchCV(RandomForestClassifier(), 
         param_grid={
             'criterion': ['gini', 'entropy'], 
-            'max_depth': [i for i in range(1, len(X_train.columns))]+[None]
+            'max_depth': [None] 
             }, 
     cv=5, scoring="accuracy")
 
@@ -35,8 +35,8 @@ def random_forest(X_train, y_train, X_test, y_test):
     # tn, fp, fn, tp = confusion_matrix(y_test, y_hat).ravel()
     print(pd.crosstab(pd.Series(y_test.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
 
-    #print(y_test.to_numpy())
-    #print(y_hat)
+    ROC_curve(model, X_test, y_test, "Random Forest")
+    confusion_mat(model, y_hat, y_test, "Random Forest")
 
 
 def naive_bayes(X_train, y_train, X_test, y_test):
@@ -59,9 +59,8 @@ def naive_bayes(X_train, y_train, X_test, y_test):
     # tn, fp, fn, tp = confusion_matrix(y_test, y_hat).ravel()
     print(pd.crosstab(pd.Series(y_test.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
 
-    #print(y_test.to_numpy())
-    #print(y_hat)
-
+    ROC_curve(model, X_test, y_test, "Naive Bayes")
+    confusion_mat(model, y_hat, y_test, "Naive Bayes")
 
 def logistic_regression(X_train, y_train, X_test, y_test):
 
@@ -91,5 +90,6 @@ def logistic_regression(X_train, y_train, X_test, y_test):
     # tn, fp, fn, tp = confusion_matrix(y_test, y_hat).ravel()
     print(pd.crosstab(pd.Series(y_test.to_numpy(), name='Actual'), pd.Series(y_hat, name='Predicted')), "\n")
 
-    #print(y_test.to_numpy())
-    #print(y_hat)
+    ROC_curve(model, X_test, y_test, "Logistic Regression")
+    confusion_mat(model, y_hat, y_test, "Logistic Regression")
+
