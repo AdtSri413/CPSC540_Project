@@ -1,5 +1,8 @@
 from sklearn.metrics import RocCurveDisplay, ConfusionMatrixDisplay, confusion_matrix
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
 
 def ROC_curve(model, X_test, y_test, model_name):
     RocCurveDisplay.from_predictions(
@@ -28,5 +31,8 @@ def confusion_mat(model, y_hat, y_test, model_name):
     plt.show()
 
 
-def correlation_plots():
-    pass
+def correlation_plots(data):
+    cormat = data.corr()
+    round(cormat,2)
+    sns.heatmap(cormat, xticklabels=True, yticklabels=True)
+    plt.show()
